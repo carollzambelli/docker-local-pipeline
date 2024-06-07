@@ -37,15 +37,15 @@ def save_folder(data, path):
         data.to_csv(path, index=False, mode='a', header=False, sep = ";")
 
 
-def save_mysql(data, myhost):
+def save_mysql(data):
         data['load_date'] = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
 
         con = mysql.connector.connect(
-            user='root', password='root', host=myhost, port="3306", database='db')
+            user='root', password='root', host="mysql", port="3306", database='db')
         
         print("DB connected")
 
-        engine  = create_engine(f"mysql+mysqlconnector://root:root@{myhost}/db")
+        engine  = create_engine(f"mysql+mysqlconnector://root:root@mysql/db")
         data.to_sql('cadastro', con=engine, if_exists='append', index=False)
         con.close()
 

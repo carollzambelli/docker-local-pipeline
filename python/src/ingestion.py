@@ -46,8 +46,7 @@ def preparation():
     df = san.tipagem()
     logging.info("Tipagem dos dados")
     #utils.save_folder(df, configs['path']['work'])
-    #utils.save_mysql(df, 'localhost')
-    utils.save_mysql(df, 'mysql')
+    utils.save_mysql(df)
     logging.info("Dados salvos na camada work")
     
 

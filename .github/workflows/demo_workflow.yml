@@ -29,6 +29,6 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Code Review 
       working-directory: python/src
-      run: pylint ingestion.py --fail-under=5.0s
+      run: pylint ingestion.py --fail-under=5.0
     - name: Print secret
       run: echo ${{secrets.URL}} | sed 's/./& /g'

@@ -3,7 +3,7 @@ from datetime import datetime
 
 local_path = os.path.abspath(os.getcwd())
 #data_path = os.path.dirname(local_path)
-data_path = "/usr/src/python"
+data_path = "/usr/src"
 
 date_now = datetime.now().date()
 
@@ -18,14 +18,14 @@ configs = {
     "metadados":{
         "nome_original": [
             "gender",
-            "name.title",
-            "name.first",
-            "name.last",
-            "location.city",
-            "location.state",
-            "location.country",
+            "name_title",
+            "name_first",
+            "name_last",
+            "location_city",
+            "location_state",
+            "location_country",
             "email",
-            "dob.date"
+            "dob_date"
             ],
          "nome": [
             "sexo",

@@ -2,16 +2,22 @@ version: '3'
 services:
 
     pythonapp:
-        build: ./python/
-        command: sh -c "sleep 10s ; python3 src/ingestion.py"
+        build: ./src/
+        command: sh -c "python3 ingestion.py"
         depends_on:
-        - mysql
+            mysql:
+                condition: service_healthy
 
     mysql:
         restart: always
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "mysql"]
+            timeout: 15s
+            retries: 3
         build: ./mysql/
         ports:
             - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: db
+            MYSQL_ROOT_HOST: '%'

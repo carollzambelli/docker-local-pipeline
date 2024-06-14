@@ -2,8 +2,7 @@
 
 import pandas as pd
 import requests
-import utils
-import os
+import utils as utils
 from dotenv import load_dotenv
 from config import configs
 import logging
@@ -27,7 +26,10 @@ def ingestion():
     except Exception as exception_error:
         utils.error_handler(exception_error, 'read_api', configs['path']['logs'])
     df = pd.json_normalize(data)
-    utils.save_folder(df, configs['path']['raw'])
+    cols = [s.replace('.', '_') for s in df.columns]
+    df.columns = cols
+    utils.save_mysql(df, "mysql", "cadastro_raw")
+    #utils.save_folder(df, configs['path']['raw'])
     
 
 def preparation():
@@ -38,15 +40,14 @@ def preparation():
     """
 
     logging.info("Iniciando o saneamento")
-    file = f"{configs['path']['raw']}"
-    df = pd.read_csv(file, sep=";")
+    df = utils.read_mysql("mysql", "cadastro_raw")
     san = utils.Saneamento(df, config_file)
     san.select_rename()
     logging.info("Seleção de dados")
     df = san.tipagem()
     logging.info("Tipagem dos dados")
     #utils.save_folder(df, configs['path']['work'])
-    utils.save_mysql(df)
+    utils.save_mysql(df, "mysql", "cadastro")
     logging.info("Dados salvos na camada work")
     
 
